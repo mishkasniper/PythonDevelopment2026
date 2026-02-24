@@ -142,6 +142,7 @@ def main():
         wrap_text=args.n,
         cowfile=get_cowfile(args.f),
     )
+
     second_cow = cowsay(
         message=args.second_message,
         cow=second_cow,
@@ -150,7 +151,21 @@ def main():
         wrap_text=args.N,
         cowfile=get_cowfile(args.F),
     )
-    print(first_cow)
-    print(second_cow)
+
+    first_lines = first_cow.split('\n')
+    second_lines = second_cow.split('\n')
+    width = max(len(line) for line in first_lines)
+
+    if len(first_lines) > len(second_lines):
+        second_lines = ['\n'] * (len(first_lines) - len(second_lines)) + second_lines
+    else:
+        first_lines = [''] * (len(second_lines) - len(first_lines)) + first_lines
+    
+    result = []
+    for i in range(len(first_lines)):
+        result.append(first_lines[i].ljust(width) + second_lines[i])
+
+    for line in result:
+        print(line)
 if __name__ == "__main__":
     main()
