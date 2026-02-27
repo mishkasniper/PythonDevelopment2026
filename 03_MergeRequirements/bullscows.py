@@ -1,6 +1,7 @@
 import random
 import sys
 import urllib.request
+from cowsay import cowsay
 
 def bullscows(ans: str, que: str) -> tuple[int, int]:
     if len(ans) != len(que):
@@ -63,7 +64,7 @@ def ask(prompt: str, valid: list[str] = None) -> str:
         print("uncorrect word")
 
 def inform(format_string: str, bulls: int, cows: int) -> None:
-    print(format_string.format(bulls, cows))
+    print(cowsay(format_string.format(bulls, cows)))
 
 
 
