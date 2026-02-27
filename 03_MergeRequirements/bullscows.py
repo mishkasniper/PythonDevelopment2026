@@ -1,6 +1,7 @@
 import random
 import sys
 import urllib.request
+from cowsay import cowsay
 
 def bullscows(ans: str, que: str) -> tuple[int, int]:
     if len(ans) != len(que):
@@ -51,17 +52,17 @@ def gameplay(ask: callable, inform: callable, words: list[str]) -> int:
 
 def ask(prompt: str, valid: list[str] = None) -> str:
     if valid == None:
-        print(prompt)
+        print(cowsay(prompt))
         return input()
     while True:
-        print(prompt)
+        print(cowsay(prompt))
         answer = input()
         if answer in valid:
             return answer
-        print("uncorrect word")
+        print(cowsay("uncorrect word", eyes='--'))
 
 def inform(format_string: str, bulls: int, cows: int) -> None:
-    print(format_string.format(bulls, cows))
+    print(cowsay(format_string.format(bulls, cows)))
 
 def load_dict(source: str, length: int = None) -> list[str]:
     if source.startswith(('http://', 'https://')):
