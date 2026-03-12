@@ -213,6 +213,16 @@ class CowsayCmd(cmd.Cmd):
             return
         args = shlex.split(arg)
         self._do_cow_command(args, cowsay.cowthink)
+
+    
+    def do_quit(self, arg: str):
+        """Exit the interactive shell."""
+        print("Goodbye!")
+        return True
+    
+    def do_exit(self, arg: str):
+        """Exit the interactive shell."""
+        return self.do_quit(arg)
     
     def do_EOF(self, arg: str):
         """Handle Ctrl-D to exit."""
