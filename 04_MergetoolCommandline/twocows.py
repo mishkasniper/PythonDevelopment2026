@@ -163,7 +163,9 @@ class CowsayCmd(cmd.Cmd):
         print("\nAvailable cows:")
         print(", ".join(sorted(cows)))
     
-
+    def complete_list_cows(self, text: str, line: str, begidx: int, endidx: int) -> List[str]:
+        """Autocomplete for list_cows command."""
+        return []
     
     def do_make_bubble(self, arg: str):
         """
@@ -188,7 +190,9 @@ class CowsayCmd(cmd.Cmd):
         bubble = cowsay.make_bubble(text, width=width, wrap_text=wrap_text)
         print(bubble)
     
-
+    def complete_make_bubble(self, text: str, line: str, begidx: int, endidx: int) -> List[str]:
+        """Autocomplete for make_bubble command."""
+        return []
     
     def do_cowsay(self, arg: str):
         """
@@ -201,7 +205,11 @@ class CowsayCmd(cmd.Cmd):
         args = shlex.split(arg)
         self._do_cow_command(args, cowsay.cowsay)
     
-
+    def complete_cowsay(self, text: str, line: str, begidx: int, endidx: int) -> List[str]:
+        """Autocomplete cow names for cowsay."""
+        if not text:
+            return self.cow_list
+        return [cow for cow in self.cow_list if cow.startswith(text)]
     
     def do_cowthink(self, arg: str):
         """
@@ -214,7 +222,9 @@ class CowsayCmd(cmd.Cmd):
         args = shlex.split(arg)
         self._do_cow_command(args, cowsay.cowthink)
     
-
+    def complete_cowthink(self, text: str, line: str, begidx: int, endidx: int) -> List[str]:
+        """Autocomplete for cowthink command."""
+        return self.complete_cowsay(text, line, begidx, endidx)
     
     def do_set(self, arg: str):
         """
@@ -272,7 +282,15 @@ class CowsayCmd(cmd.Cmd):
             else:
                 print(f"Error: Unknown parameter '{key}'")
     
-
+    def complete_set(self, text: str, line: str, begidx: int, endidx: int) -> List[str]:
+        """Autocomplete for set command."""
+        params = ['first_cow=', 'second_cow=', 'first_eyes=', 'second_eyes=', 
+                 'tongue=', 'width=', 'wrap_text=']
+        
+        if not text:
+            return params
+        
+        return [p for p in params if p.startswith(text)]
     
     def do_quit(self, arg: str):
         """Exit the interactive shell."""
