@@ -213,6 +213,65 @@ class CowsayCmd(cmd.Cmd):
             return
         args = shlex.split(arg)
         self._do_cow_command(args, cowsay.cowthink)
+    
+
+    
+    def do_set(self, arg: str):
+        """
+        Set default parameters.
+        Usage: set parameter=value
+        Parameters: first_cow, second_cow, first_eyes, second_eyes, tongue, width, wrap_text
+        """
+        if not arg:
+            print("Current settings:")
+            print(f"  first_cow: {self.first_cow}")
+            print(f"  second_cow: {self.second_cow}")
+            print(f"  first_eyes: {self.first_eyes}")
+            print(f"  second_eyes: {self.second_eyes}")
+            print(f"  first_tongue: {self.first_tongue}")
+            print(f"  second_tongue: {self.second_tongue}")
+            print(f"  width: {self.width}")
+            print(f"  wrap_text: {self.wrap_text}")
+            return
+        
+        args = shlex.split(arg)
+        for arg in args:
+            if '=' not in arg:
+                print(f"Error: Invalid format '{arg}'. Use parameter=value")
+                continue
+            
+            key, value = arg.split('=', 1)
+            key = key.strip()
+            value = value.strip()
+            
+            if key == 'first_cow':
+                if value in self.cow_list or value == 'default':
+                    self.first_cow = value
+                else:
+                    print(f"Error: '{value}' is not a valid cow")
+            elif key == 'second_cow':
+                if value in self.cow_list or value == 'default':
+                    self.second_cow = value
+                else:
+                    print(f"Error: '{value}' is not a valid cow")
+            elif key == 'first_eyes':
+                self.first_eyes = value
+            elif key == 'second_eyes':
+                self.second_eyes = value
+            elif key == 'first_tongue':
+                self.first_tongue = value
+            elif key == 'second_tongue':
+                self.second_tongue = value
+            elif key == 'width':
+                try:
+                    self.width = int(value)
+                except ValueError:
+                    print("Error: width must be an integer")
+            elif key == 'wrap_text':
+                self.wrap_text = value.lower() == 'true'
+            else:
+                print(f"Error: Unknown parameter '{key}'")
+    
 
     
     def do_quit(self, arg: str):
